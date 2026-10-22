@@ -1,6 +1,8 @@
 # Upgrade the webservice's bundled whisperX (3.7.2 / pyannote 3.4, broken on
 # torch >= 2.6) to whisperX 3.8.6, which uses pyannote.audio 4.
-FROM onerahmet/openai-whisper-asr-webservice:latest
+# Pinned by digest (= webservice v1.10.0) so upstream changes can't break the
+# build; bump deliberately and check that the sed patches below still apply.
+FROM onerahmet/openai-whisper-asr-webservice@sha256:0616c3d5fc6924e9d59aa8a7a3a944fbe8f3a5d701e5fc1fa2ce5b933dfecb73
 
 # CPU-only torch first, so whisperx doesn't pull the CUDA wheels from PyPI
 RUN /app/.venv/bin/pip install --no-cache-dir \

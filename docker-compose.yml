@@ -21,4 +21,5 @@ services:
       ASR_MODEL_PATH: /cache/whisper
     volumes:
       - ./cache:/cache
-    restart: unless-stopped
+    # The systemd unit sets RESTART_POLICY=no so that only systemd manages it
+    restart: ${RESTART_POLICY:-unless-stopped}
