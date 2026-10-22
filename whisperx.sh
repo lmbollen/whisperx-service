@@ -19,7 +19,8 @@ case "${1:-}" in
     [ "$RUN_UID" -ne 0 ] || die "run as your normal user (or via sudo), not as root"
 
     DOCKER=$(command -v docker) || die "docker not found"
-    "$DOCKER" compose version >/dev/null 2>&1 \
+    # Check as root, like the unit runs it (a plugin in ~/.docker/cli-plugins won't do)
+    sudo_ "$DOCKER" compose version >/dev/null 2>&1 \
       || die "'docker compose' (v2 plugin) not available, see README prerequisites"
 
     install -d -o "$RUN_UID" -g "$RUN_GID" "$DIR/cache"

@@ -19,7 +19,7 @@ you), config in `.env`.
 ## Usage
 
 ```bash
-cp .env.example .env              # optional, see Config below
+install -m 600 .env.example .env  # optional, see Config below (600: may hold HF_TOKEN)
 docker compose up -d --build      # start (first request downloads models)
 docker compose logs -f            # logs
 docker compose down               # stop
@@ -46,6 +46,16 @@ so don't move it after installing (or re-run `install`).
 `uninstall` removes the service, `whisperx-service:local` and the pinned base
 image. To free everything, also delete this folder (cached models and `.env`)
 and run `docker builder prune` for leftover build cache.
+
+## API
+
+- Swagger UI: http://localhost:9000/docs (bound to localhost only)
+- Transcribe:
+  ```bash
+  curl -F "audio_file=@file.mp3" \
+    "http://localhost:9000/asr?output=json&word_timestamps=true"
+  ```
+  `output` can be `txt`, `json`, `srt`, `vtt`, `tsv`.
 
 ## Config (`.env`)
 
